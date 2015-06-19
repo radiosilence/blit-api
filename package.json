@@ -1,0 +1,25 @@
+{
+  "name": "blit-api",
+  "version": "1.0.0",
+  "description": "Simple useful things.",
+  "main": "server.es",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/radiosilence/blit-api.git"
+  },
+  "author": "James Cleveland",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radiosilence/blit-api/issues"
+  },
+  "homepage": "https://github.com/radiosilence/blit-api#readme",
+  "dependencies": {
+    "express": "^4.12.4"
+  },
+  "devDependencies": {
+    "babel": "^5.5.8"
+  }
+}
