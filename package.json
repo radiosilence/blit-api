@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/radiosilence/blit-api#readme",
   "dependencies": {
-    "express": "^4.12.4"
+    "config": "^1.14.0",
+    "express": "^4.12.4",
+    "geoip-lite": "^1.1.6"
   },
   "devDependencies": {
     "babel": "^5.5.8"
