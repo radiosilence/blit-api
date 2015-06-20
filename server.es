@@ -1,6 +1,7 @@
-import express from 'express';
 import config from 'config';
+import express from 'express';
 import geoip from 'geoip-lite';
+import useragent from 'express-useragent';
 
 const serverConfig = config.get('server');
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
     ip: ip,
     geo: geoip.lookup(ip),
     headers: req.headers,
+    ua: useragent.parse(req.headers['user-agent'])
   });
 });
 
