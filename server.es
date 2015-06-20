@@ -21,12 +21,14 @@ const reqToIP = req => req.headers['x-real-ip']
 // The only endpoint so far. Just returns some handy information.
 app.get('/', (req, res) => {
   let ip = reqToIP(req);
+  let ua = useragent.parse(req.headers['user-agent']);
+  delete ua.geo;
   res.setHeader('Content-Type', ContentTypes.JSON);
   res.send({
     ip: ip,
     geo: geoip.lookup(ip),
     headers: req.headers,
-    ua: useragent.parse(req.headers['user-agent'])
+    ua: ua
   });
 });
 
