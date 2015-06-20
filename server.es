@@ -22,7 +22,7 @@ const reqToIP = req => req.headers['x-real-ip']
 app.get('/', (req, res) => {
   let ip = reqToIP(req);
   let ua = useragent.parse(req.headers['user-agent']);
-  delete ua.geo;
+  delete ua.geoIp;
   res.setHeader('Content-Type', ContentTypes.JSON);
   res.send({
     ip: ip,
