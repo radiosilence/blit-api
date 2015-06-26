@@ -3,6 +3,13 @@
 		"http": {
 			"port": 4000,
 			"host": "0.0.0.0"
-		}
+		},
+    "db": {
+      "path": "./data.db"
+    },  
+    "facebook": {
+      "appId": 1457178287910704,
+      "apiVersion": "v2.3"
+    }
 	}
 }
