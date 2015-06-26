@@ -1,15 +1,22 @@
 {
-	"server": {
-		"http": {
-			"port": 4000,
-			"host": "0.0.0.0"
-		},
-    "db": {
-      "path": "./data.db"
-    },  
-    "facebook": {
-      "appId": 1457178287910704,
-      "apiVersion": "v2.3"
+	"http": {
+		"port": 4000,
+		"host": "0.0.0.0"
+	},
+  "express": {
+    "sessionSecret": "potato"
+  },
+  "db": {
+    "path": "./data.db"
+  },  
+  "facebook": {
+    "appId": 0,
+    "appSecret": "0",
+    "apiVersion": "v2.3"
+  },
+  "dbs": {
+    "users": {
+      "path": "./users.db"
     }
-	}
+  }
 }

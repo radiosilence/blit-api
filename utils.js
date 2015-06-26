@@ -6,3 +6,6 @@ export var reqToIP = req => req.headers['x-real-ip']
     ? req.headers['x-forwarded-for'].split(', ').pop()
     : req.ip;
 
+export var ensureAuthenticated = (req, res, next) => req.isAuthenticated()
+  ? next()
+  : res.redirect('/login');

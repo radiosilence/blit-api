@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
   res.send({
     ip: ip,
     geo: geoip.lookup(ip),
-    headers: req.headers
+    headers: req.headers,
+    user: req.user,
+    cookies: req.cookies
   });
 });
 
