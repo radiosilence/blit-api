@@ -8,4 +8,4 @@ export var reqToIP = req => req.headers['x-real-ip']
 
 export var ensureAuthenticated = (req, res, next) => req.isAuthenticated()
   ? next()
-  : res.redirect('/login');
+  : res.redirect('/auth/facebook');

@@ -8,6 +8,8 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
+import connectNedbSession from 'connect-nedb-session';
+
 
 // Auth
 import passport from 'passport';
@@ -23,11 +25,18 @@ import auth from './routes/auth';
 import image from './routes/image';
 
 const app = express();
+const NedbStore = connectNedbSession(session);
+
 app.use(logger());
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
-app.use(session({ secret: config.get('express').sessionSecret }));
+app.use(session({
+  secret: config.get('express').session.secret,
+  store: new NedbStore({
+    filename: config.get('express').session.storePath
+  })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,6 +56,7 @@ passport.use(new FacebookStrategy({
   },
   (accessToken, refreshToken, profile, done) => {
     users.findOne({facebookId: profile.id}, (err, user) => {
+      console.log("HERE", err, user);
       if (user)
         done(err, user);
       else

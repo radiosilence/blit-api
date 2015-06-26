@@ -4,7 +4,10 @@
 		"host": "0.0.0.0"
 	},
   "express": {
-    "sessionSecret": "potato"
+    "session": {
+      "secret": "potato",
+      "storePath": "./sessions.db"
+    }
   },
   "db": {
     "path": "./data.db"
@@ -17,6 +20,13 @@
   "dbs": {
     "users": {
       "path": "./users.db"
+    }
+  },
+  "aws": {
+    "key": null,
+    "secret": null,
+    "s3": {
+      "bucket": "blit"
     }
   }
 }
