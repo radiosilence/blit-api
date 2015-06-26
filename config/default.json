@@ -10,8 +10,8 @@
     "path": "./data.db"
   },  
   "facebook": {
-    "appId": 0,
-    "appSecret": "0",
+    "appId": null,
+    "appSecret": null,
     "apiVersion": "v2.3"
   },
   "dbs": {

@@ -29,7 +29,8 @@
     "method-override": "^2.3.3",
     "morgan": "^1.6.0",
     "nedb": "^1.1.2",
-    "passport": "^0.2.2"
+    "passport": "^0.2.2",
+    "react": "^0.13.3"
   },
   "devDependencies": {
     "babel": "^5.5.8"

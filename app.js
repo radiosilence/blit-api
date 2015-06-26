@@ -20,6 +20,7 @@ import { users } from './dbs/auth';
 // Routes
 import routes from './routes/index';
 import auth from './routes/auth';
+import image from './routes/image';
 
 const app = express();
 app.use(logger());
@@ -32,6 +33,7 @@ app.use(passport.session());
 
 app.use('/', routes);
 app.use('/auth', auth);
+app.use('/image', image);
 
 // Passport config
 passport.serializeUser((user, done) => done(null, user));

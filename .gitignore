@@ -2,4 +2,5 @@ node_modules/
 *.swp
 *.log
 *.db
-
+config/*.json
+!config/default.json
