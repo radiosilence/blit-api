@@ -59,7 +59,7 @@ passport.deserializeUser((obj, done) => done(null, obj));
 passport.use(new FacebookStrategy({
     clientID: config.get('facebook').appId,
     clientSecret: config.get('facebook').appSecret,
-    callbackURL: `http://localhost:${config.get('http').port}/auth/facebook/callback`,
+    callbackURL: `${config.get('url')}/auth/facebook/callback`,
     profileFields: ['id', 'displayName', 'name', 'photos', 'gender']
   },
   (accessToken, refreshToken, profile, done) => {
