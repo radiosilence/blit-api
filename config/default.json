@@ -20,11 +20,15 @@
   "dbs": {
     "users": {
       "path": "./users.db"
+    },
+    "images": {
+      "path": "./images.db"
     }
   },
   "aws": {
-    "key": null,
-    "secret": null,
+    "accessKeyId": null,
+    "secretAccessKey": null,
+    "region": "eu-west-1",
     "s3": {
       "bucket": "blit"
     }
