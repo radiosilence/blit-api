@@ -21,7 +21,6 @@ router.get('/', ensureAuthenticated, (req, res) => {
   })
 });
 
-
 router.get('/:id', (req, res) => {
   images.findOne({_id : req.params.id}, (err, image) => {
 
@@ -47,11 +46,10 @@ router.post('/upload', ensureAuthenticated, multer({
   }
 
   let image = req.files.image[0];
-  
-  console.log(image);
   let id = uuid();
   let key = `${id}.${image.name.split('.').slice(-1)[0]}`;
   let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
+  
   s3.upload({
     Body: image.buffer
   }, (err, data) => {
