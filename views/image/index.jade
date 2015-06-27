@@ -1,24 +1,25 @@
 extends ../layout
 
 block content
-  form.form-horizontal(action='/image/upload', method='post', enctype='multipart/form-data')
-    div.form-group
-      label.col-sm-2.control-label Image
-      div.col-sm-10
-        input(name='image', type='file')
-    div.form-group
-      div.col-sm-offset-2.col-sm-10
-        input.btn.btn-primary(type='submit', value='Upload...')
+  div.container
+    form.form-horizontal(action='/image/upload', method='post', enctype='multipart/form-data')
+      div.form-group
+        label.col-sm-2.control-label Image
+        div.col-sm-10
+          input(name='image', type='file')
+      div.form-group
+        div.col-sm-offset-2.col-sm-10
+          input.btn.btn-primary(type='submit', value='Upload...')
 
-  table.table.table-striped
-    thead
-      th Name
-      th Width
-      th Height
-    tbody
-      each image, i in images
-        tr
-          td
-            a(href='/image/#{image._id}') #{image.name}
-          td #{image.size.width}
-          td #{image.size.height}
+    table.table.table-striped
+      thead
+        th Name
+        th Width
+        th Height
+      tbody
+        each image, i in images
+          tr
+            td
+              a(href='/image/#{image._id}') #{image.name}
+            td #{image.size.width}
+            td #{image.size.height}
