@@ -1,5 +1,10 @@
 extends ../layout
 
+block extrahead
+  title #{image.name}
+  meta(property='og:title', content=image.name)
+  meta(property='og:image', content=image.url)
+
 block content
   img#img(src=image.url)
   script(src='/retina.js')
