@@ -17,7 +17,7 @@ const AWSConfig = config.get('aws');
 router.get('/', ensureAuthenticated, (req, res) => {
   res.setHeader('Content-Type', ContentTypes.HTML);
   images.find({user: req.user._id}, (err, userImages) => {
-    res.render('image/index', {images: userImages});    
+    res.render('image/index', {images: userImages, user: req.user});    
   })
 });
 
@@ -49,7 +49,7 @@ router.post('/upload', ensureAuthenticated, multer({
   let id = uuid();
   let key = `${id}.${image.name.split('.').slice(-1)[0]}`;
   let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
-  
+
   s3.upload({
     Body: image.buffer
   }, (err, data) => {
