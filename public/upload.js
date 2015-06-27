@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var del = findInPath(deleteButtons, event.path);
     if (!del) return;
     event.preventDefault();
-    if (confirm('Do you wish to delete ' + del.dataset.id + '?'))
+    if (confirm('Do you wish to delete ' + del.dataset.name + '?'))
       window.location = '/image/' + del.dataset.id + '/delete?confirm=true';
   });
 });
