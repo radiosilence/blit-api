@@ -27,4 +27,7 @@ block content
                   a(href='/image/#{image._id}') #{image.name}
                 td #{image.size.width}
                 td #{image.size.height}
+                td
+                  a.deleteButton.btn.btn-danger.btn-sm(data-id=image._id, data-name=image.name)
+                    i.fa.fa-times
   script(src='/upload.js')

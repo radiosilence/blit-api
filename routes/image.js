@@ -34,6 +34,33 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.get('/:id/delete', ensureAuthenticated, (req, res) => {
+  if (req.query.confirm !== 'true') {
+    res.redirect('/image');
+  }
+  images.findOne({_id : req.params.id, user: req.user._id}, (err, image) => {
+    if (err) {
+      res.setHeader('Content-Type', ContentTypes.JSON);
+      res.send(err);
+    } else if (image) {
+      let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket}});
+      images.remove({_id: req.params.id}, {}, (err, numRemoved) => {
+        if (err) {
+          res.send(err);
+        } else {
+          s3.deleteObject({
+            Key: image.awsKey
+          }, (err, data) => {
+            res.redirect('/image');
+          });          
+        }
+      });
+    } else {
+      res.redirect('/image');
+    }
+  });
+});
+
 router.post('/upload', ensureAuthenticated, multer({
   putSingleFilesInArray: true,
   inMemory: true
@@ -47,7 +74,7 @@ router.post('/upload', ensureAuthenticated, multer({
 
   let image = req.files.image[0];
   let id = uuid();
-  let key = `${id}.${image.name.split('.').slice(-1)[0]}`;
+  let key = `${id}.${image.name.split('.').slice(-1)[0].toLowerCase()}`;
   let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
 
   s3.upload({
@@ -57,6 +84,7 @@ router.post('/upload', ensureAuthenticated, multer({
       _id: id,
       user: req.user._id,
       name: image.originalname,
+      awsKey: key,
       type: image.type,
       size: sizeOf(image.buffer),
       url: `https://s3-${AWSConfig.region}.amazonaws.com/${AWSConfig.s3.bucket}/${key}`
