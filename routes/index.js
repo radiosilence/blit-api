@@ -1,3 +1,4 @@
+import config from 'config';
 import express from 'express';
 import geoip from 'geoip-lite';
 import useragent from 'express-useragent';
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
     ip: ip,
     geo: geoip.lookup(ip),
     headers: req.headers,
-    user: req.user,
+    user: req.user || `${config.get('url')}/auth/facebook`,
     cookies: req.cookies
   });
 });
