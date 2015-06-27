@@ -6,5 +6,10 @@ block extrahead
   meta(property='og:image', content=image.url)
 
 block content
-  img#img(src=image.url, width=image.size.width, height=image.size.height)
-  script(src='/retina.js')
+  div.container-fluid
+    div.form-group
+      input(onClick='this.select();').col-sm-11.lowvis(value=image.url)
+      a.col-sm-1(href='/image')
+        i.fa.fa-th-list
+    img#img(src=image.url, width=image.size.width, height=image.size.height)
+    script(src='/retina.js')
