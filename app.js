@@ -1,6 +1,7 @@
 // Core
 import config from 'config';
 import express from 'express';
+import path from 'path';
 
 // Express
 import session from 'express-session';

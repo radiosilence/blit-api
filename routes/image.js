@@ -15,12 +15,15 @@ const router = express.Router();
 const AWSConfig = config.get('aws');
 
 router.get('/retina/:id', (req, res) => {
-  res.setHeader('Content-Type', ContentTypes.JSON);
   images.findOne({_id : req.params.id}, (err, image) => {
-    if (err)
+
+    if (err) {
+      res.setHeader('Content-Type', ContentTypes.JSON);
       res.send(err);
-    else
-      res.send(image);
+    } else {
+      res.setHeader('Content-Type', ContentTypes.HTML);
+      res.render('image', { image: image });
+    }
   });
 });
 
