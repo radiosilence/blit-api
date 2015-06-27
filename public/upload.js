@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
       event.preventDefault();
       console.log('ui cha');
       uploadForm.submit();
+      uploadSubmit.disabled = true;
+      uploadSubmit.value = '...';
     });
 });
 
