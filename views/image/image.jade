@@ -6,5 +6,5 @@ block extrahead
   meta(property='og:image', content=image.url)
 
 block content
-  img#img(src=image.url)
+  img#img(src=image.url, width=image.size.width, height=image.size.height)
   script(src='/retina.js')
