@@ -14,7 +14,15 @@ import { images } from '../dbs/images';
 const router = express.Router();
 const AWSConfig = config.get('aws');
 
-router.get('/retina/:id', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
+  res.setHeader('Content-Type', ContentTypes.HTML);
+  images.find({user: req.user._id}, (err, userImages) => {
+    res.render('image/index', {images: userImages});    
+  })
+});
+
+
+router.get('/:id', (req, res) => {
   images.findOne({_id : req.params.id}, (err, image) => {
 
     if (err) {
@@ -22,24 +30,9 @@ router.get('/retina/:id', (req, res) => {
       res.send(err);
     } else {
       res.setHeader('Content-Type', ContentTypes.HTML);
-      res.render('image', { image: image });
+      res.render('image/image', {image: image});
     }
   });
-});
-
-router.get('/upload', ensureAuthenticated, (req, res) => {
-  res.setHeader('Content-Type', ContentTypes.HTML);
-  res.send(React.renderToStaticMarkup(
-    <html>
-      <body>
-        <form action="/image/upload" method="post" encType="multipart/form-data">
-          <input type="file" name="image" />
-          <input type="text" name="url" />
-          <input type="submit" />
-        </form>
-      </body>
-    </html>
-  ));
 });
 
 router.post('/upload', ensureAuthenticated, multer({
@@ -47,7 +40,15 @@ router.post('/upload', ensureAuthenticated, multer({
   inMemory: true
 }), (req, res) => {
   res.setHeader('Content-Type', ContentTypes.JSON);
+
+  if (!req.files.image) {
+    res.redirect('/image');
+    return;
+  }
+
   let image = req.files.image[0];
+  
+  console.log(image);
   let id = uuid();
   let key = `${id}.${image.name.split('.').slice(-1)[0]}`;
   let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
@@ -56,12 +57,13 @@ router.post('/upload', ensureAuthenticated, multer({
   }, (err, data) => {
     images.insert({
       _id: id,
-      name: image.name,
+      user: req.user._id,
+      name: image.originalname,
       type: image.type,
       size: sizeOf(image.buffer),
       url: `https://s3-${AWSConfig.region}.amazonaws.com/${AWSConfig.s3.bucket}/${key}`
     }, (err, newImage) => {
-      res.redirect(`/image/retina/${id}`)
+      res.redirect(`/image/${id}`)
     });
   });
 });

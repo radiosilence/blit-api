@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  table
+    thead
+      th Name
+      th URL
+      th Width
+      th Height
+    tbody
+      each image, i in images
+        tr
+          td
+            a(href='/image/#{image._id}') #{image.name}
+          td #{image.url}
+          td #{image.size.width}
+          td #{image.size.height}
+  form(action='/image/upload', method='post', enctype='multipart/form-data')
+    input(name='image', type='file')
+    input(type='submit', value='Upload...')
