@@ -13,7 +13,6 @@ block content
   table.table.table-striped
     thead
       th Name
-      th URL
       th Width
       th Height
     tbody
@@ -21,6 +20,5 @@ block content
         tr
           td
             a(href='/image/#{image._id}') #{image.name}
-          td #{image.url}
           td #{image.size.width}
           td #{image.size.height}
