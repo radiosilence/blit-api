@@ -4,6 +4,7 @@ import express from 'express';
 
 // Express
 import session from 'express-session';
+import serveStatic from 'serve-static';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -27,6 +28,11 @@ import image from './routes/image';
 const app = express();
 const NedbStore = connectNedbSession(session);
 
+// Views
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// Middleware
 app.use(logger());
 app.use(cookieParser());
 app.use(bodyParser());
@@ -43,6 +49,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/auth', auth);
 app.use('/image', image);
+app.use(serveStatic(__dirname + '/public'));
 
 // Passport config
 passport.serializeUser((user, done) => done(null, user));

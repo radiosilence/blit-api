@@ -15,22 +15,12 @@ const router = express.Router();
 const AWSConfig = config.get('aws');
 
 router.get('/retina/:id', (req, res) => {
-  res.setHeader('Content-Type', ContentTypes.HTML);
+  res.setHeader('Content-Type', ContentTypes.JSON);
   images.findOne({_id : req.params.id}, (err, image) => {
-    if (err) {
+    if (err)
       res.send(err);
-      return;
-    }
-    console.log("IMAGE", image);
-    res.send(React.renderToStaticMarkup(
-      <html>
-        <body>
-          <img
-            style={{width: `${image.size.width / 2}px`, height: `${image.size.height / 2}px`}}
-            src={image.url} />
-        </body>
-      </html>
-    ));
+    else
+      res.send(image);
   });
 });
 
