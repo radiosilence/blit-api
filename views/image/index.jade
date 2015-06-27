@@ -1,7 +1,16 @@
 extends ../layout
 
 block content
-  table
+  form.form-horizontal(action='/image/upload', method='post', enctype='multipart/form-data')
+    div.form-group
+      label.col-sm-2.control-label Image
+      div.col-sm-10
+        input(name='image', type='file')
+    div.form-group
+      div.col-sm-offset-2.col-sm-10
+        input.btn.btn-primary(type='submit', value='Upload...')
+
+  table.table.table-striped
     thead
       th Name
       th URL
@@ -15,6 +24,3 @@ block content
           td #{image.url}
           td #{image.size.width}
           td #{image.size.height}
-  form(action='/image/upload', method='post', enctype='multipart/form-data')
-    input(name='image', type='file')
-    input(type='submit', value='Upload...')
