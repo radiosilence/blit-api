@@ -29,4 +29,11 @@ router.get('/ua', (req, res) => {
   res.send(ua);
 });
 
+// A slow to load URL
+router.get('/delay/:delay', (req, res) => {
+  setTimeout(() => {
+    res.send('OK');
+  }, parseInt(req.params.delay));
+});
+
 export default router;
