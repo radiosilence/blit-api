@@ -1,15 +1,15 @@
 import config from 'config';
-import express from 'express';
+import { Router } from 'express';
 import geoip from 'geoip-lite';
 import useragent from 'express-useragent';
 import { reqToIP } from '../utils';
 import { ContentTypes } from '../constants';
 
-const router = express.Router();
+const router = Router();
 
 // Just returns some handy information.
 router.get('/', (req, res) => {
-  let ip = reqToIP(req);
+  const ip = reqToIP(req);
   res.setHeader('Content-Type', ContentTypes.JSON);
   res.send({
     ip: ip,
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 
 // Returns analysed user-agent information.
 router.get('/ua', (req, res) => {
-  let ua = useragent.parse(req.headers['user-agent']);
+  const ua = useragent.parse(req.headers['user-agent']);
   delete ua.geoIp;
 
   res.setHeader('Content-Type', ContentTypes.JSON);
@@ -33,7 +33,7 @@ router.get('/ua', (req, res) => {
 router.get('/delay/:delay', (req, res) => {
   setTimeout(() => {
     res.send('OK');
-  }, parseInt(req.params.delay));
+  }, Number(req.params.delay));
 });
 
 export default router;

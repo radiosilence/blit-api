@@ -1,6 +1,5 @@
 import config from 'config';
-import express from 'express';
-import React from 'react/addons';
+import { Router } from 'express';
 import multer from 'multer';
 import uuid from 'node-uuid';
 import sizeOf from 'image-size';
@@ -11,19 +10,19 @@ import { ContentTypes } from '../constants';
 
 import { images } from '../dbs/images';
 
-const router = express.Router();
+const router = Router();
 const AWSConfig = config.get('aws');
 
 router.get('/', ensureAuthenticated, (req, res) => {
   res.setHeader('Content-Type', ContentTypes.HTML);
   images.find({user: req.user._id}, (err, userImages) => {
-    res.render('image/index', {images: userImages, user: req.user});    
-  })
+    if (err) res.send(err);
+    else res.render('image/index', {images: userImages, user: req.user});
+  });
 });
 
 router.get('/:id', (req, res) => {
-  images.findOne({_id : req.params.id}, (err, image) => {
-
+  images.findOne({_id: req.params.id}, (err, image) => {
     if (err) {
       res.setHeader('Content-Type', ContentTypes.JSON);
       res.send(err);
@@ -38,21 +37,21 @@ router.get('/:id/delete', ensureAuthenticated, (req, res) => {
   if (req.query.confirm !== 'true') {
     res.redirect('/image');
   }
-  images.findOne({_id : req.params.id, user: req.user._id}, (err, image) => {
+  images.findOne({_id: req.params.id, user: req.user._id}, (err, image) => {
     if (err) {
       res.setHeader('Content-Type', ContentTypes.JSON);
       res.send(err);
     } else if (image) {
-      let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket}});
-      images.remove({_id: req.params.id}, {}, (err, numRemoved) => {
-        if (err) {
-          res.send(err);
+      const s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket}});
+      images.remove({_id: req.params.id}, {}, removeErr => {
+        if (removeErr) {
+          res.send(removeErr);
         } else {
           s3.deleteObject({
             Key: image.awsKey
-          }, (err, data) => {
+          }, () => {
             res.redirect('/image');
-          });          
+          });
         }
       });
     } else {
@@ -72,25 +71,28 @@ router.post('/upload', ensureAuthenticated, multer({
     return;
   }
 
-  let image = req.files.image[0];
-  let id = uuid();
-  let key = `${id}.${image.name.split('.').slice(-1)[0].toLowerCase()}`;
-  let s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
+  const image = req.files.image[0];
+  const id = uuid();
+  const key = `${id}.${image.name.split('.').slice(-1)[0].toLowerCase()}`;
+  const s3 = new aws.S3({params: {Bucket: AWSConfig.s3.bucket, Key: key, ACL: 'public-read'}});
 
   s3.upload({
     Body: image.buffer
-  }, (err, data) => {
-    images.insert({
-      _id: id,
-      user: req.user._id,
-      name: image.originalname,
-      awsKey: key,
-      type: image.type,
-      size: sizeOf(image.buffer),
-      url: `https://s3-${AWSConfig.region}.amazonaws.com/${AWSConfig.s3.bucket}/${key}`
-    }, (err, newImage) => {
-      res.redirect(`/image/${id}`)
-    });
+  }, err => {
+    if (err) res.send(err);
+    else {
+      images.insert({
+            _id: id,
+            user: req.user._id,
+            name: image.originalname,
+            awsKey: key,
+            type: image.type,
+            size: sizeOf(image.buffer),
+            url: `https://s3-${AWSConfig.region}.amazonaws.com/${AWSConfig.s3.bucket}/${key}`
+          }, () => {
+            res.redirect(`/image/${id}`);
+          });
+    }
   });
 });
 
