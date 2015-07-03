@@ -5,7 +5,7 @@ import useragent from 'express-useragent';
 import { reqToIP } from '../utils';
 import { ContentTypes } from '../constants';
 
-const router = Router();
+const router = new Router();
 
 // Just returns some handy information.
 router.get('/', (req, res) => {

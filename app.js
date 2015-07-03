@@ -12,7 +12,6 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import connectNedbSession from 'connect-nedb-session';
 
-
 // Auth
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
