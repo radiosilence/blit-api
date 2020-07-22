@@ -34,7 +34,7 @@
     "multer": "^0.1.8",
     "nedb": "^1.1.2",
     "node-uuid": "^1.4.3",
-    "normalize.css": "^3.0.3",
+    "normalize.css": "^8.0.1",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
     "react": "^0.13.3",
