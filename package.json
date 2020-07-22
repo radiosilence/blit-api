@@ -25,7 +25,7 @@
     "debug": "^2.2.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
-    "express-useragent": "^0.1.8",
+    "express-useragent": "^1.0.15",
     "geoip-lite": "^1.1.6",
     "image-size": "^0.3.5",
     "jade": "^1.11.0",
