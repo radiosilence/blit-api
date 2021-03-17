@@ -27,7 +27,7 @@
     "express-session": "^1.11.3",
     "express-useragent": "^0.1.8",
     "geoip-lite": "^1.1.6",
-    "image-size": "^0.3.5",
+    "image-size": "^0.9.7",
     "jade": "^1.11.0",
     "method-override": "^2.3.3",
     "morgan": "^1.6.0",
